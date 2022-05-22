@@ -9,7 +9,7 @@ What this will do:
 
 We have around 2.7 millions of trap camera pictures to train the model. 
 
-<img src="Exploratory data analysis/plots/hist.png" width="650%" />
+<img src="Exploratory data analysis/plots/hist.png" width="65%" />
 
 # To do list
 
