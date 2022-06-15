@@ -1,6 +1,6 @@
 library(rio)
 
-df <- import("data_mining.xlsx")
+df <- import("data/data_mining.xlsx")
 
 wd <- "G:/.shortcut-targets-by-id/10VkK57jOtpT-sb2s1ZPO1UHGvs4yau86/1-Fotos"
 
