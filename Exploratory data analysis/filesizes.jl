@@ -2,7 +2,7 @@ using CSV
 using DataFrames
 using Tables
 using RCall
-## using XLSX - readxlsx won't read all rows for some reason, gotta wait until the patch it, instead we'll use RCall
+## using XLSX - readxlsx won't read all rows for some reason, gotta wait until they patch it, instead we'll use RCall
 
 function add0(n::String)
     if length(n) .== 1
@@ -12,7 +12,7 @@ function add0(n::String)
     end
 end
 
-df = rcopy(R"library(rio)
+df = rcopy(R"library(rio) 
 import('data/data.xlsx')") ## wwow this works perfectly!
 
 df.years = string.(trunc.(Int, df.years))
@@ -31,5 +31,4 @@ for i in 1:nrow(df)
 end
 
 CSV.write("data/filesizes.csv",  Tables.table(a), writeheader=false)
-
 
