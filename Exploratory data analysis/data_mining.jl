@@ -57,9 +57,11 @@ for i in 1:nrow(df)
     data = get_folders(directory)
     tempdf = DataFrame(years = df[i,: ].years, parks = df[i,: ].parks, units = df[i,: ].units, animal = df[i,: ].animal, pic_folder = df[i,: ].pic_folder, filename = data)
     df2 = vcat(df2,tempdf)
-    print(i,"\n")
+    percantage = round((i/nrow(df))*100, digits = 5)
+    print(i,"out of ", nrow(df), " (",percantage,"%)")
 end
 df = df2
 df2 = DataFrame() ## just to free memory hehe 
 
 CSV.write("data.csv",df)
+

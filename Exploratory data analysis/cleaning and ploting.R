@@ -3,7 +3,8 @@ library(ggplot2) ## ggplot()
 library(dplyr) ## summary() + group_By()
 library(stringr) # str_to_title()
 
-df <- import("data/data_mining.xlsx")
+df <- import("data/data.xlsx")
+names(df) <- c("year","park","unit","animal","pic_folder","filename")
 df$filesizes <- import("data/filesizes.csv")
 df$filesizes <- round((df$filesize$V1/1000),2) ## from bytes to kilobytes
 df <- df[df$extensions == ".jpg",] ## get photos
