@@ -2,6 +2,7 @@ using DataFrames
 using CSV
 using XLSX
 using Tables
+include("paste.jl")
 
 function get_folders(vector)
     vector = readdir(vector)
@@ -18,7 +19,7 @@ years = readdir(wd)
 
 df = DataFrame()
 for year in years 
-    tempdir = wd*"/"*year
+    tempdir = paste(wd,year,sep="/")
     park = get_folders(tempdir)
     tempdf = DataFrame(years = year, parks = park)
     df = vcat(df,tempdf)
@@ -26,7 +27,7 @@ end
 
 df2 = DataFrame()
 for i in 1:nrow(df)
-    directory = wd*"/"*df[i,: ].years*"/"*df[i,: ].parks
+    directory = paste(wd, df[i,: ].years, df[i,: ].parks, sep="/")
     data = get_folders(directory)
     tempdf = DataFrame(years = df[i,: ].years, parks = df[i,: ].parks, units = data)
     df2 = vcat(df2,tempdf)
@@ -35,7 +36,7 @@ df = df2
 
 df2 = DataFrame()
 for i in 1:nrow(df)
-    directory = wd*"/"*df[i,: ].years*"/"*df[i,: ].parks*"/"*df[i,: ].units
+    directory = paste(wd, df[i,: ].years, df[i,: ].parks, df[i,: ].units, sep="/")
     data = get_folders(directory)
     tempdf = DataFrame(years = df[i,: ].years, parks = df[i,: ].parks, units = df[i,: ].units, animal = data)
     df2 = vcat(df2,tempdf)
@@ -44,7 +45,7 @@ df = df2
 
 df2 = DataFrame()
 for i in 1:nrow(df)
-    directory = wd*"/"*df[i,: ].years*"/"*df[i,: ].parks*"/"*df[i,: ].units*"/"*df[i,: ].animal
+    directory = paste(wd, df[i,: ].years, df[i,: ].parks, df[i,: ].units, df[i,: ].animal, sep="/")
     data = get_folders(directory)
     tempdf = DataFrame(years = df[i,: ].years, parks = df[i,: ].parks, units = df[i,: ].units, animal = df[i,: ].animal, pic_folder = data)
     df2 = vcat(df2,tempdf)
@@ -53,7 +54,7 @@ df = df2
 
 df2 = DataFrame()
 for i in 1:nrow(df)
-    directory = wd*"/"*df[i,: ].years*"/"*df[i,: ].parks*"/"*df[i,: ].units*"/"*df[i,: ].animal*"/"*df[i,: ].pic_folder
+    directory = paste(wd, df[i,: ].years, df[i,: ].parks, df[i,: ].units, df[i,: ].animal, df[i,: ].pic_folder, sep="/")
     data = get_folders(directory)
     tempdf = DataFrame(years = df[i,: ].years, parks = df[i,: ].parks, units = df[i,: ].units, animal = df[i,: ].animal, pic_folder = df[i,: ].pic_folder, filename = data)
     df2 = vcat(df2,tempdf)
