@@ -10,5 +10,3 @@ function paste(a...;sep::String="")
         return chop(final)
     end
 end 
-
-paste("a","b")

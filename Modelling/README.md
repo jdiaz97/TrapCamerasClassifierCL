@@ -12,3 +12,7 @@ This will be composed of 3 models, stacked in layers that will activate dependin
 
 - Python 3.9
 - Tensorflow 2.9.1 and its Object Detection 1.0 API.
+
+## Pre-Trained Model
+
+  - EfficientDet D7 1536x1536
