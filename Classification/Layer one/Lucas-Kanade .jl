@@ -3,7 +3,7 @@ using Images, ImageView, ImageTransformations
 using CoordinateTransformations, StaticArrays
 using LinearAlgebra
 using JpegTurbo
-include
+include("metrics.jl")
 
 cd("Classification/Layer one/demo")
 img1 = imresize(load("fantasma1.jpg"),ratio=1/4)
