@@ -21,11 +21,11 @@ df.pic_folder = add0.(string.(trunc.(Int, df.pic_folder)))
 wd = "G:/.shortcut-targets-by-id/10VkK57jOtpT-sb2s1ZPO1UHGvs4yau86/1-Fotos"
 
 a = Float32.(zeros(0))
-total = lastindex(directories)
 directories = wd*"/".*pastedf(df, sep = "/")
+total = lastindex(directories)
 
 for i in 1:total
-    b = filesize(directories[1])
+    b = filesize(directories[i])
     a = vcat(a,b)
     percantage = round((i/total)*100, digits = 5)
     print(i, " out of ", total ," images processed (" , percantage, " %). ",b, " bytes of Memory. \n",  )
