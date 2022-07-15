@@ -10,3 +10,13 @@ function paste(a...;sep::String="")
         return chop(final)
     end
 end 
+
+using DataFrames
+
+function pastedf(df;sep::String="")
+    finalvector = ""
+    for i in 1:ncol(df)
+        finalvector = finalvector.*string.(df[:,i]).*sep
+    end
+    finalvector
+end

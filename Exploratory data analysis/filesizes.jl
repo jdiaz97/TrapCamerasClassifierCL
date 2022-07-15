@@ -13,7 +13,7 @@ function add0(n::String)
 end
 
 df = rcopy(R"library(rio) 
-import('data/data.xlsx')") ## wwow this works perfectly!
+import('Exploratory data analysis/data/data.xlsx')") ## wwow this works perfectly!
 
 df.years = string.(trunc.(Int, df.years))
 df.pic_folder = add0.(string.(trunc.(Int, df.pic_folder)))
