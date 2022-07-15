@@ -5,22 +5,7 @@ library(stringr) # str_to_title()
 
 df <- import("data/data.xlsx")
 names(df) <- c("year","park","unit","animal","pic_folder","filename")
-df$filesizes <- import("data/filesizes.csv")
-df$filesizes <- round((df$filesize$V1/1000),2) ## from bytes to kilobytes
-df <- df[df$extensions == ".jpg",] ## get photos
 
-## filesizes plot
-ggplot(df[df$filesizes < 4000,]) + aes(x = filesizes) +
-  geom_histogram(color = "pink", fill = "pink", bins = 25) +
-  ggtitle("Peso de archivos en la base de datos") +
-  xlab("Kilobytes") + 
-  ylab("Frecuencia") +
-  theme_light()
-
-ggsave("plots/firstplot.jpg")
-
-## define dataset of interest
-df <- df[df$filesizes > 250,]
 # eliminate plurals strings 
 nchar_to_cut <- nchar(df[str_sub(df$animal,-1) == "s",]$animal)
 no_plural <- str_sub(df[str_sub(df$animal,-1) == "s",]$animal,1,(nchar_to_cut-1))
@@ -62,7 +47,7 @@ df$animal <- factor(df$animal, levels = df$animal)
 df <- df[complete.cases(df),]
 
 ## plot
-ggplot(df[df$n > 1000,]) + aes(x=animal, y = n, fill = animal) +
+a <- ggplot(df[df$n > 1000,]) + aes(x=animal, y = n, fill = animal) +
   geom_text(aes(label=n), vjust=0.4, hjust = -0.1) +
   geom_bar(position="stack", stat="identity") +
   theme_bw() +
@@ -75,9 +60,9 @@ ggplot(df[df$n > 1000,]) + aes(x=animal, y = n, fill = animal) +
         axis.text.y	 = element_text(size = 12)) +
   scale_y_continuous(expand = expansion(mult = 0, add = 10),limits = c(0,max(df$n)*1.171))
 
-ggsave("plots/summary1_plot.jpg", width = 6.37, height = 4.61) 
+ggsave("plots/summary1_plot.jpg", plot = a, width = 6.37, height = 4.61) 
 
-## calculations
+## Calculations
 toautomate <- sum(df$n[df$n > 9000])
 total <- sum(df$n) 
 
