@@ -18,5 +18,5 @@ function pastedf(df;sep::String="")
     for i in 1:ncol(df)
         finalvector = finalvector.*string.(df[:,i]).*sep
     end
-    finalvector
+    chop.(finalvector)
 end
