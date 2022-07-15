@@ -18,16 +18,17 @@ import('Exploratory data analysis/data/data.xlsx')") ## wwow this works perfectl
 df.years = string.(trunc.(Int, df.years))
 df.pic_folder = add0.(string.(trunc.(Int, df.pic_folder)))
 
-
 wd = "G:/.shortcut-targets-by-id/10VkK57jOtpT-sb2s1ZPO1UHGvs4yau86/1-Fotos"
 
 a = Float32.(zeros(0))
-for i in 1:nrow(df)
-    directory = wd*"/"*df[i,: ].years*"/"*df[i,: ].parks*"/"*df[i,: ].units*"/"*df[i,: ].animal*"/"*df[i,: ].pic_folder*"/"*df[i,: ].filename
-    b = filesize(directory)
+total = lastindex(directories)
+directories = wd*"/".*pastedf(df, sep = "/")
+
+for i in 1:total
+    b = filesize(directories[1])
     a = vcat(a,b)
-    percantage = round((i/nrow(df))*100, digits = 5)
-    print(i, " out of ", nrow(df) ," images processed (" , percantage, " %). ",b, " bytes of Memory. \n",  )
+    percantage = round((i/total)*100, digits = 5)
+    print(i, " out of ", total ," images processed (" , percantage, " %). ",b, " bytes of Memory. \n",  )
 end
 
 CSV.write("data/filesizes.csv",  Tables.table(a), writeheader=false)
