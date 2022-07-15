@@ -10,23 +10,17 @@ function makepairs(vector)
     return pair_vector
 end
 
-function studybatch(directory)
-    firstcd = pwd()
-    cd(directory)
-    files_vector = readdir()
-    pairs = makepairs(files_vector)
-    pairs[2][2]
-    batch = Vector()
+function studybatch(batch)
+    pairs = makepairs(batch)
+    studybatch = Vector()
         for i in 1:lastindex(pairs)
             lines = LucasKanadeLines(
             pairs[i][1], pairs[i][2]
             )
-        batchdist = mean_distance(lines)
-        batch = vcat(batch,batchdist)
+        tempbatch = mean_distance(lines)
+        studybatch = vcat(studybatch,tempbatch)
         end
-    cd(firstcd)
     return batch
 end
 
-maxbatch = maximum(studybatch("guanaco"))
 
