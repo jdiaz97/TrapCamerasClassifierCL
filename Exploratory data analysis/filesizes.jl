@@ -2,6 +2,7 @@ using CSV
 using DataFrames
 using Tables
 using RCall
+include("paste.jl")
 ## using XLSX - readxlsx won't read all rows for some reason, gotta wait until they patch it, instead we'll use RCall
 
 function add0(n::String)
@@ -20,7 +21,7 @@ df.pic_folder = add0.(string.(trunc.(Int, df.pic_folder)))
 
 wd = "G:/.shortcut-targets-by-id/10VkK57jOtpT-sb2s1ZPO1UHGvs4yau86/1-Fotos"
 
-a = Float32.(zeros(0))
+a = Float64.(zeros(0))
 directories = wd*"/".*pastedf(df, sep = "/")
 total = lastindex(directories)
 
@@ -31,5 +32,4 @@ for i in 1:total
     print(i, " out of ", total ," images processed (" , percantage, " %). ",b, " bytes of Memory. \n",  )
 end
 
-CSV.write("data/filesizes.csv",  Tables.table(a), writeheader=false)
-
+CSV.write("Exploratory data analysis/data/filesizes.csv",  Tables.table(a), writeheader=false)
