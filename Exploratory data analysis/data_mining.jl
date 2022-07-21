@@ -4,13 +4,13 @@ using Tables
 include("paste.jl")
 
 function get_data(vector)
-    vector = readdir(vector)
-    vector = vector[@. !occursin.(".exe",vector)]
-    vector = vector[@. !occursin.(".ini",vector)]
-    vector = vector[@. !occursin.(".dll",vector)]
-    vector = vector[@. !occursin.(".txt",vector)]
-    vector = vector[@. !occursin.(".gsheet",vector)]
-    vector
+    data = readdir(vector)
+    data = data[@. !occursin.(".exe",data)]
+    data = data[@. !occursin.(".ini",data)]
+    data = data[@. !occursin.(".dll",data)]
+    data = data[@. !occursin.(".txt",data)]
+    data = data[@. !occursin.(".gsheet",data)]
+    return data
 end
 
 wd = "G:/.shortcut-targets-by-id/10VkK57jOtpT-sb2s1ZPO1UHGvs4yau86/1-Fotos"

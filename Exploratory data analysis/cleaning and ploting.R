@@ -4,6 +4,7 @@ library(dplyr) ## summary() + group_By()
 library(stringr) # str_to_title()
 
 df <- import("data/data.xlsx")
+# df <- import("data/filesizes.csv")
 names(df) <- c("year","park","unit","animal","pic_folder","filename")
 
 # eliminate plurals strings 

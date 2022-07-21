@@ -7,7 +7,7 @@ What this will do:
 
 # Data
 
-We have around 2.7 millions of trap camera pictures to train the model. 
+We have millions of trap camera pictures to train the model. 
 
 <img src="Exploratory data analysis/plots/hist.png" width="65%" />
 
