@@ -2,7 +2,7 @@ using RCall
 using Plots
 using DataFrames
 
-filanames = readdir("Classification/Layer one/demodata/fantasma1")
+filenames = readdir("Classification/Layer one/demodata/fantasma1")
 
 function parseDate(string)
     DataFrame(
@@ -16,23 +16,45 @@ function parseDate(string)
     )
 end
 
+function shortyear(year)
+    parse.(Int64,chop.(string.(year), head = 2, tail = 0))
+end
+
 function totalseconds(df)
-    return df.second+(df.minute*60)+(df.hour*60*60)+(df.day*60*60*24)
+    return df.second+(df.minute*60)+(df.hour*60*60)+(df.day*60*60*24)+(df.month*60*60*24*30)+shortyear(df.year)*(365*24*60*60)
 end
 
 function dfDate(vector)
     a = DataFrame()
         for i in 1:lastindex(vector)
-            print(i, "\n")
             a = vcat(a,parseDate(vector[i]))
         end
     return a
 end
 
-dfdate = dfDate(filanames)
-totalseconds(dfdate) 
+function defineBatch(filenames)
+    df = DataFrame(
+            seconds = totalseconds(dfDate(filenames)) ,
+            filenames = filenames,
+            batch = 0, ## just to initialize
+         )
+
+    minutesspan = 2
+    batchindex = 1
+
+    for i in 1:nrow(df)-1
+         if abs(df[i,:].seconds - df[i+1,:].seconds) < minutesspan*60
+             df[i,:].batch = batchindex
+             df[i+1,:].batch = batchindex
+         else
+             batchindex = batchindex + 1 
+         end
+    end
+    return DataFrame(
+        filenames = df.filenames,
+        batch = df.batch
+    )
+end
 
 
-
-
-
+defineBatch(filenames)
