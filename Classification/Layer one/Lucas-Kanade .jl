@@ -5,8 +5,8 @@ using LinearAlgebra
 using JpegTurbo
 
 function LucasKanadeLines(pathimg1,pathimg2)
-    img1 = imresize(load(pathimg1),ratio=1/2)
-    img2 = imresize(load(pathimg2),ratio=1/2)
+    img1 = imresize(load(pathimg1),ratio=1/4)
+    img2 = imresize(load(pathimg2),ratio=1/4)
     corners = imcorner(img1, method=shi_tomasi)
     I = findall(!iszero, corners)
     r, c = (getindex.(I, 1), getindex.(I, 2))

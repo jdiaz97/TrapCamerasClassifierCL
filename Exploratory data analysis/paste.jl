@@ -1,7 +1,7 @@
 function paste(a...;sep::String="")
     a = string.(a)
     final::String = ""
-    for i in 1:length(a)
+    for i in eachindex(a)
         final = final*a[i]*sep
     end
     if sep == ""

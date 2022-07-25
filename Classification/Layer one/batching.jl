@@ -1,9 +1,9 @@
-using RCall
-using Plots
 using DataFrames
 using Dates
+using Statistics
+include("Lucas-Kanade .jl")
+include("metrics.jl")
 
-filenames = readdir("Classification/Layer one/demodata/fantasma1")
 
 function parseDate(string)
     DateTime(
@@ -42,4 +42,49 @@ function defineBatch(filenames)
 end
 
 
-defineBatch(filenames)
+function makepairs(vector)
+    pair_vector = Vector()
+        for i in 1:lastindex(vector)-1
+            temp_vector = vector[i],vector[i+1]
+            pair_vector = vcat(pair_vector,temp_vector) 
+        end
+    return pair_vector
+end
+
+function studybatch(batchpath)
+    pairs = makepairs(batchpath)
+    studybatch = Vector()
+        for i in 1:lastindex(pairs)
+            lines = LucasKanadeLines(
+            pairs[i][1], pairs[i][2]
+            )
+        tempbatch = mean_distance(lines)
+        studybatch = vcat(studybatch,tempbatch)
+        end
+    return studybatch
+end
+
+function DefineClassification(df::DataFrame,wd::String)
+    threeshold = 0.8 ## Important number, it will have to be defined based on statistics
+
+    insertcols!(df, 3, :type => "0")
+    insertcols!(df, 4, :meanbatch => 0.0::Float64)
+
+    finaldf = DataFrame()
+        for i in 1:maximum(df.batch)
+            tempdf = subset(df, :batch => ByRow(==(i))) 
+            if (nrow(tempdf) > 1)
+                paths = wd.*"/".*tempdf.filenames 
+                meanbatch = mean(studybatch(paths))
+                    if meanbatch > threeshold
+                        tempdf[!,3] .= "animal"
+                        tempdf[!,4] .= meanbatch
+                    else 
+                        tempdf[!,3] .= "fantasma"
+                        tempdf[!,4] .= meanbatch
+                    end   
+            end
+         finaldf = vcat(finaldf,tempdf)
+    end
+    return finaldf
+end
