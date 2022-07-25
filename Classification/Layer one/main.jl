@@ -6,7 +6,10 @@ df = defineBatch(readdir(wd))
 df = AddMeanBatch(df,wd)
 df = DefineClassification(df)
 
-mkdir(wd*"/fantasma")
+if !isdir(wd*"/fantasma")
+    mkdir(wd*"/fantasma")
+end
+
 for i in 1:nrow(df)
     if df[i,:].type == "fantasma"
         origin = wd*"/"*df[i,:].filenames
