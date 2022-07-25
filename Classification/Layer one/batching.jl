@@ -64,26 +64,36 @@ function studybatch(batchpath)
     return studybatch
 end
 
-function DefineClassification(df::DataFrame,wd::String)
-    threeshold = 0.8 ## Important number, it will have to be defined based on statistics
+function AddMeanBatch(df::DataFrame,wd::String)
+    colindex = ncol(df)+1
 
-    insertcols!(df, 3, :type => "0")
-    insertcols!(df, 4, :meanbatch => 0.0::Float64)
+    insertcols!(df, colindex, :meanbatch => 0.0::Float64)
 
     finaldf = DataFrame()
         for i in 1:maximum(df.batch)
             tempdf = subset(df, :batch => ByRow(==(i))) 
             if (nrow(tempdf) > 1)
                 paths = wd.*"/".*tempdf.filenames 
-                meanbatch = mean(studybatch(paths))
-                    if meanbatch > threeshold
-                        tempdf[!,3] .= "animal"
-                        tempdf[!,4] .= meanbatch
-                    else 
-                        tempdf[!,3] .= "fantasma"
-                        tempdf[!,4] .= meanbatch
-                    end   
+                tempdf[!,colindex] .= mean(studybatch(paths))
             end
+         finaldf = vcat(finaldf,tempdf)
+    end
+    return finaldf
+end
+
+function DefineClassification(df::DataFrame)
+    threeshold = 0.8 ## Important number, it will have to be defined based on statistics
+    colindex = ncol(df)+1
+    insertcols!(df, colindex, :type => "0")
+
+    finaldf = DataFrame()
+        for i in 1:maximum(df.batch)
+            tempdf = subset(df, :batch => ByRow(==(i))) 
+            if  tempdf.meanbatch[1]> threeshold
+                tempdf[!,colindex] .= "animal"
+            else 
+                tempdf[!,colindex] .= "fantasma"
+            end   
          finaldf = vcat(finaldf,tempdf)
     end
     return finaldf

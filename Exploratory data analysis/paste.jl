@@ -13,9 +13,9 @@ end
 
 using DataFrames
 
-function pastedf(df;sep::String="")
+function pastedf(df;sep::String="",chopper::Int64=0)
     finalvector = ""
-    for i in 1:ncol(df)
+    for i in 1:ncol(df)-chopper
         finalvector = finalvector.*string.(df[:,i]).*sep
     end
     if sep == ""
