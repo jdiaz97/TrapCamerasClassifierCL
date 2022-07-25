@@ -1,8 +1,8 @@
 include("batching.jl")
 
 wd = "Classification/Layer one/demodata/fantasmatest"
-df = defineBatch(readdir(wd))
 
+df = defineBatch(readdir(wd))
 df = AddMeanBatch(df,wd)
 df = DefineClassification(df)
 

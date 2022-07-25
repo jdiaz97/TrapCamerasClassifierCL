@@ -4,7 +4,6 @@ using Statistics
 include("Lucas-Kanade .jl")
 include("metrics.jl")
 
-
 function parseDate(string)
     DateTime(
         parse(Int64,chop(string, head = 0, tail = 19)), ## year
@@ -17,6 +16,7 @@ function parseDate(string)
     )
 end
 
+## simply create a column that adds the Batch column, based one the time pictures were taken
 function defineBatch(filenames)
     df = DataFrame(
             date = parseDate.(filenames),
@@ -41,7 +41,7 @@ function defineBatch(filenames)
     )
 end
 
-
+## Lucas-Kanade requires a pair, this will create it 
 function makepairs(vector)
     pair_vector = Vector()
         for i in 1:lastindex(vector)-1
@@ -51,6 +51,7 @@ function makepairs(vector)
     return pair_vector
 end
 
+## Run Lucas Kanade in a batch
 function studybatch(batchpath)
     pairs = makepairs(batchpath)
     studybatch = Vector()
@@ -64,6 +65,7 @@ function studybatch(batchpath)
     return studybatch
 end
 
+## Add the mean of each batch as a column
 function AddMeanBatch(df::DataFrame,wd::String)
     colindex = ncol(df)+1
 
@@ -81,6 +83,7 @@ function AddMeanBatch(df::DataFrame,wd::String)
     return finaldf
 end
 
+## Define classification based on meanbatch
 function DefineClassification(df::DataFrame)
     threeshold = 0.8 ## Important number, it will have to be defined based on statistics
     colindex = ncol(df)+1
