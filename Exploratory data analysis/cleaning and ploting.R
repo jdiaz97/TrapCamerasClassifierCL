@@ -4,7 +4,7 @@ library(dplyr) ## summary() + group_By()
 library(stringr) # str_to_title()
 
 df <- import("data/data.xlsx")
-# df <- import("data/filesizes.csv")
+#  df <- import("data/filesizes.csv")
 names(df) <- c("year","park","unit","animal","pic_folder","filename")
 
 # eliminate plurals strings 
@@ -33,12 +33,12 @@ df$animal[df$animal == "Zorroculpeo"] <- "Culpeo"
 df$animal[df$animal == "Guarda"] <- "Guardaparque"
 df$animal[df$animal == "Persona"] <- "Humano"
 df$animal[df$animal == "Guardaparque"] <- "Humano" ## Xd!
+df$animal[df$animal == "Fantasma"] <- "Sin animal" ## Xd!
 
 ## SUBSET FOR PATAGONIA
 df <- df[grepl("Castillo",df$park) | grepl("Patagonia",df$park)  ,]
 
 ## summarize
-
 df <- as.data.frame(table(df$animal))
 names(df) <- c("animal","n")
 
